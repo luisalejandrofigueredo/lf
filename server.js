@@ -27,18 +27,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+var session = require('express-session');
 const express_handlebars_1 = require("express-handlebars");
 const path = __importStar(require("path"));
 const HandlebarsI18n = __importStar(require("handlebars-i18n"));
 const i18next = require("i18next");
 HandlebarsI18n.init();
-const options = {
-    dotfiles: 'ignore',
-    etag: false,
-    extensions: ['html', 'js', 'scss', 'css'],
-    index: false,
-    redirect: true,
-};
 let resources = {
     resources: {
         "en": {
@@ -48,7 +42,8 @@ let resources = {
                 "celular": "Cell phone",
                 "demo": "Demonstration ng-gd library",
                 "clickImage": "Click on the image for demonstration",
-                "introduction": "The NG-GD library was created by me to have an easy way to handle the canvas in Angular. It is capable of creating objects on it and moving them with the mouse."
+                "introduction": "The NG-GD library was created by me to have an easy way to handle the canvas in Angular. It is capable of creating objects on it and moving them with the mouse.",
+                "conocimientos": "Skills"
             }
         },
         "sp": {
@@ -58,7 +53,8 @@ let resources = {
                 "celular": "Celular",
                 "demo": "Demostración librería ng-gd",
                 "clickImage": "Haz click en la imagen para la demostración",
-                "introduction": "La librería NG-GD fue creada por mi para tener una manera fácil de manejar el canvas en Angular es capaz de crear objetos en el y moverlos con el ratón"
+                "introduction": "La librería NG-GD fue creada por mi para tener una manera fácil de manejar el canvas en Angular es capaz de crear objetos en el y moverlos con el ratón",
+                "conocimientos": "Conocimientos"
             }
         }
     },
@@ -66,14 +62,35 @@ let resources = {
 };
 i18next.init(resources);
 const app = (0, express_1.default)();
-// Configure Handlebars as the view engine
-app.engine('handlebars', (0, express_handlebars_1.engine)());
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}));
+const hbs = (0, express_handlebars_1.create)({
+    helpers: {
+        eqString(a, b) { return a === b; }
+    }
+});
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set("views", path.resolve(__dirname, "./views"));
+app.use((req, res, next) => {
+    const mySession = req.session;
+    if (mySession !== undefined) {
+        // La página principal ha sido cargada previamente
+        console.log('La página principal ya fue cargada con sesión.');
+    }
+    else {
+        // La página principal no ha sido cargada previamente, establecer la propiedad en la sesión
+        mySession.loaded = true;
+        console.log('La página principal se está cargando por primera vez con sesión.');
+    }
+    next();
+});
 // Define a route that renders a Handlebars template
 app.get('/', (req, res) => {
     const lem = req.headers["accept-language"];
-    console.log('Lenguaje', lem);
     i18next.changeLanguage('sp');
     res.render('home', { name: 'Luis Alejandro Figueredo' });
 });
@@ -87,6 +104,10 @@ app.get('/en', (req, res) => {
 });
 app.get('/demo', (req, res) => {
     res.render('demoGD');
+});
+app.get('/conocimientos', (req, res) => {
+    const modeColor = req.query.modeColor;
+    res.render('conocimientos', { modeColor });
 });
 app.get('/demoGD', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/demo-gd', 'index.html'));

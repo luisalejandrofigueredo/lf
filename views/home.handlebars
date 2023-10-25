@@ -1,47 +1,51 @@
-  <div class="rowMenu">
-    <div style="text-align: left;">
-      <a href="http:\\luisfigueredo.ddns.net/demo">{{__ "demo"}}</a>
+<div class="rowMenu">
+  <div style="text-align: left;">
+    <a href="http:\\luisfigueredo.ddns.net/demo">{{__ "demo"}}</a>
+  </div>
+  <a id="conocimiento" href="http://luisfigueredo.ddns.net/conocimientos?modeColor=dark">{{__
+      "conocimientos"}} </a>
+  <a onclick="changeMode()"><i class="material-icons">wb_sunny</i></a>
+  {{#if (localeIs "sp")}}
+    <div style="text-align: right;">
+      <a href="http:\\luisfigueredo.ddns.net/en">English</a>
     </div>
-    <a onclick="changeMode()"><i class="material-icons">wb_sunny</i></a>
-    {{#if (localeIs "sp")}}
-      <div style="text-align: right;">
-        <a href="http:\\luisfigueredo.ddns.net/en">English</a>
-      </div>
-    {{/if}}
-    {{#if (localeIs "en")}}
-      <div style="text-align: right;">
-        <a href="http:\\luisfigueredo.ddns.net">Español</a>
-      </div>
-    {{/if}}
-  </div>
-  <div class="row">
-    <img src="yo.jpg" class="logo" />
-    <h2>{{name}}</h2>
-  </div>
-  <h3 style="text-align: center;">{{__ "webDeveloper"}}</h3>
-  <img class="rowFoto" src="fotoyo.jpg" />
-  <div class="row">
-    <p>{{__ "intContact"}}</p>
-  </div>
-  <div class="contacts">
-    <div class="rowPhone">
-      <p>{{__ "celular"}}:(+598) 98504391</p>
-      <img width="2%" src="WhatsApp.svg" />
-      <p style="padding-left: 20px;">Email:</p>
-      <p>luisalejandrofigueredo@gmail.com</p>
+  {{/if}}
+  {{#if (localeIs "en")}}
+    <div style="text-align: right;">
+      <a href="http:\\luisfigueredo.ddns.net">Español</a>
     </div>
+  {{/if}}
+</div>
+<div class="row">
+  <img src="yo.jpg" class="logo" />
+  <h2>{{name}}</h2>
+</div>
+<h3 style="text-align: center;">{{__ "webDeveloper"}}</h3>
+<img class="rowFoto" src="fotoyo.jpg" />
+<div class="row">
+  <p>{{__ "intContact"}}</p>
+</div>
+<div class="contacts">
+  <div class="rowPhone">
+    <p>{{__ "celular"}}:(+598) 98504391</p>
+    <img width="2%" src="WhatsApp.svg" />
+    <p style="padding-left: 20px;">Email:</p>
+    <p>luisalejandrofigueredo@gmail.com</p>
   </div>
-  <div class="row">
-    <img width="15%" style="padding-right: 1%;" src="Angular.svg" />
-    <img width="15%" style="padding-right: 1%;" src="nodejs.svg" />
-    <img
-      width="15%"
-      style="padding-right: 1%;padding-bottom: 2%;"
-      src="mysql_official_logo_icon.svg"
-    />
-    <img
-      width="10%"
-      style="padding-right: 1%;"
-      src="postgresql_src_logo_icon_170834.svg"
-    />
-  </div>
+</div>
+<script>
+      var mode="dark"
+      function changeMode(){
+        var element= document.body;
+          element.classList.toggle('light');
+        if (mode==='dark')  {
+          mode='light'
+          const miEnlace=document.getElementById('conocimiento');
+          miEnlace.href="http://luisfigueredo.ddns.net/conocimientos?modeColor=light"
+        } else {
+          mode='dark'
+          const miEnlace=document.getElementById('conocimiento');
+          miEnlace.href="http://luisfigueredo.ddns.net/conocimientos?modeColor=dark"
+        }
+      }
+</script>

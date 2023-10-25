@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2022",
     "module": "CommonJS",
     "outDir": "./",
     "rootDir": ".",
-    "strict": true,
+    "strict": false,
+    "allowSyntheticDefaultImports": true,
+    "allowJs":true,
+    "skipLibCheck": false,
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "typeRoots": [
       "node_modules/@types"
     ]
