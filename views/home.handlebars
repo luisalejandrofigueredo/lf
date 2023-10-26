@@ -14,7 +14,12 @@
         "titulos"
       }}
     </a>
-    <a onclick="changeColor()"><i class="material-icons">wb_sunny</i></a>
+    {{#if (eqString modeColor "dark")}}
+          <a onclick="changeColor()"><i class="material-icons">wb_sunny</i></a>
+      {{/if}}
+      {{#if (eqString modeColor "light")}}
+        <a onclick="changeColor()"><span class="material-symbols-outlined">dark_mode</span></a>
+      {{/if}}
     {{#if (localeIs "sp")}}
       <div style="text-align: right;">
         <a href="http:\\luisfigueredo.ddns.net/en">English</a>
@@ -40,7 +45,12 @@
           "titulos"
         }}
       </a>
-      <a onclick="changeColor()"><i class="material-icons">wb_sunny</i></a>
+      {{#if (eqString modeColor "dark")}}
+          <a onclick="changeColor()"><i class="material-icons">wb_sunny</i></a>
+      {{/if}}
+      {{#if (eqString modeColor "light")}}
+        <a onclick="changeColor()"><span class="material-symbols-outlined">dark_mode</span></a>
+      {{/if}}
       {{#if (localeIs "sp")}}
         <div style="text-align: right;">
           <a href="http:\\luisfigueredo.ddns.net/en">English</a>
