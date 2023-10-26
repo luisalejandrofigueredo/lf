@@ -4,6 +4,7 @@ body {
     text-shadow: 1px 1px 2px black, 0 0 25px aliceblue, 0 0 5px black;
 }
 
+
 .light {
     background-color: aliceblue;
     color: black;
@@ -78,6 +79,14 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    border-style: outset;
+}
+
+.rowMenu:hover {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-style: inset;  
 }
 
 .rowFoto {
@@ -111,6 +120,7 @@ a {
 
 a:hover{
     cursor: pointer;
+    color: red;
 }
 
 .column{

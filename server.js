@@ -43,7 +43,8 @@ let resources = {
                 "demo": "Demonstration ng-gd library",
                 "clickImage": "Click on the image for demonstration",
                 "introduction": "The NG-GD library was created by me to have an easy way to handle the canvas in Angular. It is capable of creating objects on it and moving them with the mouse.",
-                "conocimientos": "Skills"
+                "conocimientos": "Skills",
+                "titulos": "Degrees"
             }
         },
         "sp": {
@@ -54,7 +55,8 @@ let resources = {
                 "demo": "Demostración librería ng-gd",
                 "clickImage": "Haz click en la imagen para la demostración",
                 "introduction": "La librería NG-GD fue creada por mi para tener una manera fácil de manejar el canvas en Angular es capaz de crear objetos en el y moverlos con el ratón",
-                "conocimientos": "Conocimientos"
+                "conocimientos": "Conocimientos",
+                "titulos": "Títulos"
             }
         }
     },
@@ -77,14 +79,14 @@ app.set('view engine', 'handlebars');
 app.set("views", path.resolve(__dirname, "./views"));
 app.use((req, res, next) => {
     const mySession = req.session;
-    if (mySession !== undefined) {
+    if (mySession.color !== undefined) {
         // La página principal ha sido cargada previamente
-        console.log('La página principal ya fue cargada con sesión.');
     }
     else {
         // La página principal no ha sido cargada previamente, establecer la propiedad en la sesión
         mySession.loaded = true;
-        console.log('La página principal se está cargando por primera vez con sesión.');
+        mySession.color = "black";
+        mySession.language = "sp";
     }
     next();
 });
@@ -92,14 +94,26 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     const lem = req.headers["accept-language"];
     i18next.changeLanguage('sp');
+    const mySession = req.session;
+    if (mySession.language === "sp") {
+        i18next.changeLanguage('sp');
+        res.render('home', { name: 'Luis Alejandro Figueredo' });
+    }
+    else {
+        i18next.changeLanguage('en');
+        res.render('home', { name: 'Luis Alejandro Figueredo' });
+    }
+});
+app.get('/sp', (req, res) => {
+    i18next.changeLanguage('sp');
+    const mySession = req.session;
+    mySession.language = 'sp';
     res.render('home', { name: 'Luis Alejandro Figueredo' });
 });
 app.get('/en', (req, res) => {
     i18next.changeLanguage('en');
-    res.render('home', { name: 'Luis Alejandro Figueredo' });
-});
-app.get('/en', (req, res) => {
-    i18next.changeLanguage('en');
+    const mySession = req.session;
+    mySession.language = 'en';
     res.render('home', { name: 'Luis Alejandro Figueredo' });
 });
 app.get('/demo', (req, res) => {
@@ -108,6 +122,10 @@ app.get('/demo', (req, res) => {
 app.get('/conocimientos', (req, res) => {
     const modeColor = req.query.modeColor;
     res.render('conocimientos', { modeColor });
+});
+app.get('/titulos', (req, res) => {
+    const modeColor = req.query.modeColor;
+    res.render('titulos', { modeColor });
 });
 app.get('/demoGD', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/demo-gd', 'index.html'));

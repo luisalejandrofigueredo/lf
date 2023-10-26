@@ -3,11 +3,20 @@
     var element= document.body; element.classList.toggle('light');
   </script>
 {{/if}}
+{{#if (localeIs "sp")}}
 <div style="text-align: left;">
-  <a href="http:\\luisfigueredo.ddns.net/"><i
+  <a href="http://luisfigueredo.ddns.net/sp"><i
       class="material-icons"
     >home</i></a>
 </div>
+{{/if}}
+{{#if (localeIs "en")}}
+<div style="text-align: left;">
+  <a href="http://luisfigueredo.ddns.net/en"><i
+      class="material-icons"
+    >home</i></a>
+</div>
+{{/if}}
 <div class="column">
   <div class="row">
     <img width="15%" style="padding-right: 1%;" src="Angular.svg" />

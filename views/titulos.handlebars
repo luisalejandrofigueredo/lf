@@ -1,0 +1,24 @@
+{{#if (eqString modeColor "light")}}
+  <script>
+    var element= document.body; element.classList.toggle('light');
+  </script>
+{{/if}}
+{{#if (localeIs "sp")}}
+<div style="text-align: left;">
+  <a href="http://luisfigueredo.ddns.net/sp"><i
+      class="material-icons"
+    >home</i></a>
+</div>
+{{/if}}
+{{#if (localeIs "en")}}
+<div style="text-align: left;">
+  <a href="http://luisfigueredo.ddns.net/en"><i
+      class="material-icons"
+    >home</i></a>
+</div>
+{{/if}}
+<div class="row">
+  <img width="25%" src="programador.jpg" />
+  <img width="25%" src="analista programdor.jpg" />
+  <img width="25%" src="analista en sistemas.jpg" />
+</div>

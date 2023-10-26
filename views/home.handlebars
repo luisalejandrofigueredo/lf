@@ -4,6 +4,8 @@
   </div>
   <a id="conocimiento" href="http://luisfigueredo.ddns.net/conocimientos?modeColor=dark">{{__
       "conocimientos"}} </a>
+  <a id="titulos" href="http://luisfigueredo.ddns.net/titulos?modeColor=dark">{{__
+      "titulos"}} </a>    
   <a onclick="changeMode()"><i class="material-icons">wb_sunny</i></a>
   {{#if (localeIs "sp")}}
     <div style="text-align: right;">
@@ -12,7 +14,7 @@
   {{/if}}
   {{#if (localeIs "en")}}
     <div style="text-align: right;">
-      <a href="http:\\luisfigueredo.ddns.net">Español</a>
+      <a href="http:\\luisfigueredo.ddns.net\sp">Español</a>
     </div>
   {{/if}}
 </div>
@@ -35,17 +37,28 @@
 </div>
 <script>
       var mode="dark"
+      if (sessionStorage.getItem('color')==='light'){
+         var element= document.body;
+         element.classList.toggle('light');
+         mode='light'
+      }    
       function changeMode(){
         var element= document.body;
           element.classList.toggle('light');
         if (mode==='dark')  {
           mode='light'
           const miEnlace=document.getElementById('conocimiento');
-          miEnlace.href="http://luisfigueredo.ddns.net/conocimientos?modeColor=light"
+          miEnlace.href="http://luisfigueredo.ddns.net/conocimientos?modeColor=light";
+          const miEnlaceTitulo=document.getElementById('titulos');
+          miEnlaceTitulo.href="http://luisfigueredo.ddns.net/titulos?modeColor=light"
+          sessionStorage.setItem('color','light')
         } else {
           mode='dark'
           const miEnlace=document.getElementById('conocimiento');
-          miEnlace.href="http://luisfigueredo.ddns.net/conocimientos?modeColor=dark"
+          const miEnlaceTitulo=document.getElementById('titulos');
+          miEnlaceTitulo.href="http://luisfigueredo.ddns.net/titulos?modeColor=dark"
+          miEnlace.href="http://luisfigueredo.ddns.net/conocimientos?modeColor=dark";
+          sessionStorage.setItem('color','dark')
         }
       }
 </script>
