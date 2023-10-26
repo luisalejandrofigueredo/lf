@@ -31,6 +31,7 @@ var session = require('express-session');
 const express_handlebars_1 = require("express-handlebars");
 const path = __importStar(require("path"));
 const HandlebarsI18n = __importStar(require("handlebars-i18n"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const i18next = require("i18next");
 HandlebarsI18n.init();
 let resources = {
@@ -64,10 +65,12 @@ let resources = {
 };
 i18next.init(resources);
 const app = (0, express_1.default)();
+const secretKey = 'tu-clave-secreta';
+app.use((0, cookie_parser_1.default)(secretKey));
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
 }));
 const hbs = (0, express_handlebars_1.create)({
     helpers: {
@@ -77,55 +80,59 @@ const hbs = (0, express_handlebars_1.create)({
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set("views", path.resolve(__dirname, "./views"));
-app.use((req, res, next) => {
-    const mySession = req.session;
-    if (mySession.color !== undefined) {
-        // La página principal ha sido cargada previamente
-    }
-    else {
-        // La página principal no ha sido cargada previamente, establecer la propiedad en la sesión
-        mySession.loaded = true;
-        mySession.color = "black";
-        mySession.language = "sp";
-    }
-    next();
-});
 // Define a route that renders a Handlebars template
 app.get('/', (req, res) => {
-    const lem = req.headers["accept-language"];
     i18next.changeLanguage('sp');
-    const mySession = req.session;
+    let mySession = req.session;
+    if (mySession.color === undefined) {
+        mySession.loaded = true;
+        mySession.color = "dark";
+        mySession.language = "sp";
+    }
     if (mySession.language === "sp") {
         i18next.changeLanguage('sp');
-        res.render('home', { name: 'Luis Alejandro Figueredo' });
+        res.render('home', { name: 'Luis Alejandro Figueredo', modeColor: mySession.color });
     }
     else {
         i18next.changeLanguage('en');
-        res.render('home', { name: 'Luis Alejandro Figueredo' });
+        res.render('home', { name: 'Luis Alejandro Figueredo', modeColor: mySession.color });
     }
 });
 app.get('/sp', (req, res) => {
     i18next.changeLanguage('sp');
     const mySession = req.session;
+    const modeColor = req.session.color;
     mySession.language = 'sp';
-    res.render('home', { name: 'Luis Alejandro Figueredo' });
+    res.render('home', { name: 'Luis Alejandro Figueredo', modeColor: modeColor });
 });
 app.get('/en', (req, res) => {
     i18next.changeLanguage('en');
     const mySession = req.session;
+    const modeColor = req.session.color;
     mySession.language = 'en';
-    res.render('home', { name: 'Luis Alejandro Figueredo' });
+    res.render('home', { name: 'Luis Alejandro Figueredo', modeColor: modeColor });
 });
 app.get('/demo', (req, res) => {
-    res.render('demoGD');
+    const modeColor = req.session.color;
+    res.render('demoGD', { modeColor: modeColor });
 });
 app.get('/conocimientos', (req, res) => {
-    const modeColor = req.query.modeColor;
-    res.render('conocimientos', { modeColor });
+    const modeColor = req.session.color;
+    res.render('conocimientos', { modeColor: modeColor });
+});
+app.get('/changeColor', (req, res) => {
+    const mySession = req.session;
+    if (mySession.color === 'dark') {
+        mySession.color = 'light';
+    }
+    else {
+        mySession.color = 'dark';
+    }
+    res.json({ mensaje: 'ok' });
 });
 app.get('/titulos', (req, res) => {
-    const modeColor = req.query.modeColor;
-    res.render('titulos', { modeColor });
+    const modeColor = req.session.color;
+    res.render('titulos', { modeColor: modeColor });
 });
 app.get('/demoGD', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/demo-gd', 'index.html'));

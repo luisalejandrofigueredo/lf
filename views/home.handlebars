@@ -1,64 +1,96 @@
-<div class="rowMenu">
-  <div style="text-align: left;">
-    <a href="http:\\luisfigueredo.ddns.net/demo">{{__ "demo"}}</a>
-  </div>
-  <a id="conocimiento" href="http://luisfigueredo.ddns.net/conocimientos?modeColor=dark">{{__
-      "conocimientos"}} </a>
-  <a id="titulos" href="http://luisfigueredo.ddns.net/titulos?modeColor=dark">{{__
-      "titulos"}} </a>    
-  <a onclick="changeMode()"><i class="material-icons">wb_sunny</i></a>
-  {{#if (localeIs "sp")}}
-    <div style="text-align: right;">
-      <a href="http:\\luisfigueredo.ddns.net/en">English</a>
+<div class="iconMenu">
+<a  onclick="showColorMenu()"><i class="material-icons">menu</i></a>
+</div>
+<div class="rowPage">
+  <div id="columnMenu" class="columnMenu">
+    <div style="text-align: left;">
+      <a href="http:\\luisfigueredo.ddns.net/demo">{{__ "demo"}}</a>
     </div>
-  {{/if}}
-  {{#if (localeIs "en")}}
-    <div style="text-align: right;">
-      <a href="http:\\luisfigueredo.ddns.net\sp">Español</a>
+    <a id="conocimiento" href="http://luisfigueredo.ddns.net/conocimientos">{{__
+        "conocimientos"
+      }}
+    </a>
+    <a id="titulos" href="http://luisfigueredo.ddns.net/titulos">{{__
+        "titulos"
+      }}
+    </a>
+    <a onclick="changeColor()"><i class="material-icons">wb_sunny</i></a>
+    {{#if (localeIs "sp")}}
+      <div style="text-align: right;">
+        <a href="http:\\luisfigueredo.ddns.net/en">English</a>
+      </div>
+    {{/if}}
+    {{#if (localeIs "en")}}
+      <div style="text-align: right;">
+        <a href="http:\\luisfigueredo.ddns.net\sp">Español</a>
+      </div>
+    {{/if}}
+  </div>
+  <div class="page">
+    <div class="rowMenu">
+      <div style="text-align: left;">
+        <a href="http:\\luisfigueredo.ddns.net/demo">{{__ "demo"}}</a>
+      </div>
+      <a
+        id="conocimiento"
+        href="http://luisfigueredo.ddns.net/conocimientos"
+      >{{__ "conocimientos"}}
+      </a>
+      <a id="titulos" href="http://luisfigueredo.ddns.net/titulos">{{__
+          "titulos"
+        }}
+      </a>
+      <a onclick="changeColor()"><i class="material-icons">wb_sunny</i></a>
+      {{#if (localeIs "sp")}}
+        <div style="text-align: right;">
+          <a href="http:\\luisfigueredo.ddns.net/en">English</a>
+        </div>
+      {{/if}}
+      {{#if (localeIs "en")}}
+        <div style="text-align: right;">
+          <a href="http:\\luisfigueredo.ddns.net\sp">Español</a>
+        </div>
+      {{/if}}
     </div>
-  {{/if}}
-</div>
-<div class="row">
-  <img src="yo.jpg" class="logo" />
-  <h2>{{name}}</h2>
-</div>
-<h3 style="text-align: center;">{{__ "webDeveloper"}}</h3>
-<img class="rowFoto" src="fotoyo.jpg" />
-<div class="row">
-  <p>{{__ "intContact"}}</p>
-</div>
-<div class="contacts">
-  <div class="rowPhone">
-    <p>{{__ "celular"}}:(+598) 98504391</p>
-    <img width="2%" src="WhatsApp.svg" />
-    <p style="padding-left: 20px;">Email:</p>
-    <p>luisalejandrofigueredo@gmail.com</p>
+    <div class="rowWithoutMedia">
+      <img src="yo.jpg" class="logo" />
+      <h2>{{name}}</h2>
+    </div>
+    <h3 style="text-align: center;">{{__ "webDeveloper"}}</h3>
+    <img class="rowFoto" src="fotoyo.jpg" />
+    <div class="row">
+      <p>{{__ "intContact"}}</p>
+    </div>
+    <div class="contacts">
+      <div class="rowPhone">
+        <p>{{__ "celular"}}:</p><p>(+598) 98504391</p>
+        <img width="2%" src="WhatsApp.svg" />
+        <p style="padding-left: 20px;">Email:</p>
+        <p>luisalejandrofigueredo@gmail.com</p>
+      </div>
+    </div>
   </div>
 </div>
+
 <script>
-      var mode="dark"
-      if (sessionStorage.getItem('color')==='light'){
-         var element= document.body;
-         element.classList.toggle('light');
-         mode='light'
-      }    
-      function changeMode(){
-        var element= document.body;
-          element.classList.toggle('light');
-        if (mode==='dark')  {
-          mode='light'
-          const miEnlace=document.getElementById('conocimiento');
-          miEnlace.href="http://luisfigueredo.ddns.net/conocimientos?modeColor=light";
-          const miEnlaceTitulo=document.getElementById('titulos');
-          miEnlaceTitulo.href="http://luisfigueredo.ddns.net/titulos?modeColor=light"
-          sessionStorage.setItem('color','light')
-        } else {
-          mode='dark'
-          const miEnlace=document.getElementById('conocimiento');
-          const miEnlaceTitulo=document.getElementById('titulos');
-          miEnlaceTitulo.href="http://luisfigueredo.ddns.net/titulos?modeColor=dark"
-          miEnlace.href="http://luisfigueredo.ddns.net/conocimientos?modeColor=dark";
-          sessionStorage.setItem('color','dark')
-        }
-      }
+  let showMenu=false;
+  {{#if (eqString modeColor "light")}}
+    var element= document.body; element.classList.toggle('light')
+  {{/if}}
+  async function changeColor() { const response = await
+  fetch("http://luisfigueredo.ddns.net/changeColor"); location.reload(); }
+  function showColorMenu(){
+    if (showMenu===false)
+    {
+      showMenu=true;
+      let element=document.getElementById("columnMenu")
+      element.classList.replace("columnMenu","columnMenuVisible")
+    }
+    else{
+      showMenu=false;
+      let element=document.getElementById("columnMenu")
+      element.classList.replace("columnMenuVisible","columnMenu")
+    }
+
+  }
 </script>
