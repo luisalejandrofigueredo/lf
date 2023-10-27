@@ -125,6 +125,12 @@ body {
     justify-content: left;
 }
 
+.rowContacts{
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+}
+
 @media screen and (max-width: 768px) {
     .iconMenu {
         display: block;
@@ -170,6 +176,12 @@ body {
         border: aliceblue;
         border-style: solid;
     }
+    .contacts {
+        display: flexbox;
+        flex-direction: column;
+        justify-content: left;
+        align-items: left;
+    }
 }
 
 
@@ -192,7 +204,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: left;
+    justify-content: flex-start;
 }
 
 .logo {
