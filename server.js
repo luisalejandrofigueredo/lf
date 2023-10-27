@@ -45,7 +45,8 @@ let resources = {
                 "clickImage": "Click on the image for demonstration",
                 "introduction": "The NG-GD library was created by me to have an easy way to handle the canvas in Angular. It is capable of creating objects on it and moving them with the mouse.",
                 "conocimientos": "Skills",
-                "titulos": "Degrees"
+                "titulos": "Degrees",
+                "analista": "Systems analyst"
             }
         },
         "sp": {
@@ -57,7 +58,8 @@ let resources = {
                 "clickImage": "Haz click en la imagen para la demostración",
                 "introduction": "La librería NG-GD fue creada por mi para tener una manera fácil de manejar el canvas en Angular es capaz de crear objetos en el y moverlos con el ratón",
                 "conocimientos": "Conocimientos",
-                "titulos": "Títulos"
+                "titulos": "Títulos",
+                "analista": "Analista de sistemas"
             }
         }
     },

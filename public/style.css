@@ -159,9 +159,20 @@ body {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-around;
+        justify-content:space-between;
+    }
+    .rowPhone {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        line-height: 1px;
+        border: aliceblue;
+        border-style: solid;
     }
 }
+
+
 
 @media screen and (min-width: 768px) {
     .columnMenuVisible {
@@ -173,8 +184,9 @@ body {
 
 }
 
-
-
+.imageTitulo{
+    margin:10px
+}
 
 .rowPage {
     display: flex;
@@ -212,6 +224,3 @@ a:hover {
     justify-content: space-between;
 }
 
-p {
-    font-size: 2dvw;
-}
