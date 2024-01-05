@@ -32,6 +32,9 @@ const express_handlebars_1 = require("express-handlebars");
 const path = __importStar(require("path"));
 const HandlebarsI18n = __importStar(require("handlebars-i18n"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const https_1 = __importDefault(require("https"));
+const http_1 = __importDefault(require("http"));
+const fs_1 = __importDefault(require("fs"));
 const i18next = require("i18next");
 HandlebarsI18n.init();
 let resources = {
@@ -66,8 +69,19 @@ let resources = {
     lng: "sp"
 };
 i18next.init(resources);
+const privateKey = fs_1.default.readFileSync('C://Certbot/live/luisfigueredo.duckdns.org/privkey.pem', 'utf8');
+const certificate = fs_1.default.readFileSync('C://Certbot/live/luisfigueredo.duckdns.org/cert.pem', 'utf8');
+const ca = fs_1.default.readFileSync('C://Certbot/live/luisfigueredo.duckdns.org/chain.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate, ca: ca };
 const app = (0, express_1.default)();
 const secretKey = 'tu-clave-secreta';
+app.use((req, res, next) => {
+    console.log('recibí la peticion');
+    if (!req.secure) {
+        return res.redirect('https://' + req.headers.host + req.url);
+    }
+    next();
+});
 app.use((0, cookie_parser_1.default)(secretKey));
 app.use(session({
     secret: 'keyboard cat',
@@ -142,7 +156,15 @@ app.get('/demoGD', (req, res) => {
 // Serve static files from the "public" folder
 app.use(express_1.default.static(path.join(__dirname, "public")));
 app.use(express_1.default.static(path.join(__dirname, "public/demo-gd")));
+const httpServer = http_1.default.createServer((req, res) => {
+    res.writeHead(301, { 'Location': `https://${req.headers.host}${req.url}` });
+    res.end();
+});
+const httpsServer = https_1.default.createServer(credentials, app);
 const port = process.env.PORT || 80;
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+httpServer.listen(80, () => {
+    console.log(`Server is running on http://localhost:80`);
+});
+httpsServer.listen(443, () => {
+    console.log(`Server is running on https://localhost:443`);
 });

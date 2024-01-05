@@ -5,6 +5,9 @@ import { create } from 'express-handlebars';
 import * as path from "path";
 import * as HandlebarsI18n from "handlebars-i18n";
 import cookieParser from 'cookie-parser';
+import https from 'https';
+import http from 'http'
+import fs from 'fs';
 
 interface MySession extends SessionData {
     color?: string,
@@ -45,8 +48,23 @@ let resources = {
 }
 
 i18next.init(resources);
+const privateKey = fs.readFileSync('C://Certbot/live/luisfigueredo.duckdns.org/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('C://Certbot/live/luisfigueredo.duckdns.org/cert.pem', 'utf8');
+const ca = fs.readFileSync('C://Certbot/live/luisfigueredo.duckdns.org/chain.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate,ca:ca };
+
 const app = express();
+
 const secretKey = 'tu-clave-secreta';
+
+app.use((req:Request, res:Response ,next:NextFunction) => {
+    console.log('recibí la peticion')
+    if (!req.secure) {
+    
+      return res.redirect('https://' + req.headers.host + req.url);
+    }
+    next();
+});
 app.use(cookieParser(secretKey));
 app.use(session({
     secret: 'keyboard cat',
@@ -128,11 +146,25 @@ app.get('/titulos', (req, res) => {
 app.get('/demoGD', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/demo-gd', 'index.html'));
 });
+
 // Serve static files from the "public" folder
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public/demo-gd")));
 
+
+
+const httpServer = http.createServer((req, res) => {
+    res.writeHead(301, { 'Location': `https://${req.headers.host}${req.url}` });
+    res.end();
+  });
+
+const httpsServer = https.createServer(credentials, app);
+  
 const port = process.env.PORT || 80;
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+httpServer.listen(80, () => {
+    console.log(`Server is running on http://localhost:80`);
+});
+
+httpsServer.listen(443, () => {
+    console.log(`Server is running on https://localhost:443`);
 });
