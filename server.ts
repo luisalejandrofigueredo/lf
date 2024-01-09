@@ -48,10 +48,10 @@ let resources = {
 }
 
 i18next.init(resources);
-const privateKey = fs.readFileSync('C://Certbot/live/luisfigueredo.duckdns.org/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('C://Certbot/live/luisfigueredo.duckdns.org/cert.pem', 'utf8');
-const ca = fs.readFileSync('C://Certbot/live/luisfigueredo.duckdns.org/chain.pem', 'utf8');
-const credentials = { key: privateKey, cert: certificate,ca:ca };
+const privateKey = fs.readFileSync('./privkey.pem', 'utf8');
+const certificate = fs.readFileSync('./cert.pem', 'utf8');
+const ca = fs.readFileSync('./fullchain.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate,ca:ca};
 
 const app = express();
 
